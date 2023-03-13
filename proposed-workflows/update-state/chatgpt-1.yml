@@ -1,0 +1,31 @@
+name: Clear and Set Stale Label
+
+on:
+  issues:
+    types: [assigned]
+
+jobs:
+  clear_stale_label:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clear "stale" label
+        uses: peter-evans/remove-labels@v1 # doesn't exist, i'm hoping there's a simple API for this
+        with:
+          labels: stale
+          exempt-labels: epic
+
+  set_stale_label:
+    runs-on: ubuntu-latest
+    if: >
+      ${{ !contains(github.event.issue.labels.*.name, 'epic') 
+      && !contains(github.event.issue.labels.*.name, 'stale') 
+      && github.event.issue.state == 'open' 
+      && github.event.issue.updated_at <= format_datetime(now() - duration('P15D'), '%Y-%m-%dT%H:%M:%SZ') 
+      && !contains(github.event.issue.pull_request, 'url') }}
+    # same "updated_at" issue as actions/stale, but big if works
+    # this runs concurrently with clear_state_label so we might want to put this in a separate file with a cron timer
+    steps:
+      - name: Set "stale" label
+        uses: peter-evans/add-labels@v2 # doesn't exist either
+        with:
+          labels: stale

@@ -1,0 +1,37 @@
+name: Issue stale label
+
+on:
+  issues:
+    types: [assigned, reopened]
+
+jobs:
+  remove-stale-label:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.issue.labels.*.name, 'epic')"
+    steps:
+      - name: Remove stale label
+        uses: actions-ecosystem/action-remove-labels@v1
+        with:
+          labels: stale
+
+  add-stale-label:
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.issue.labels.*.name, 'epic')"
+    needs: remove-stale-label
+    steps:
+      - name: Check for open PR
+        uses: peter-evans/check-action@v2 # chatgpt is very good at using Actions that just don't exist
+        id: pr-check
+        with:
+          ref: ${{ github.event.issue.head.ref }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Compute days since last assignee change
+        id: compute_days_since_assignee_change
+        run: echo "::set-output name=days_since_assignee_change::$(python3 -c 'import datetime; print((datetime.datetime.utcnow() - datetime.datetime.fromisoformat(\"${{ github.event.issue.assignee.updated_at }}\")).days)')'"
+        # does this work????
+      - name: Add stale label
+        if: ${{ steps.compute_days_since_assignee_change.outputs.days_since_assignee_change >= 15 && steps.pr-check.outputs.has_changed == 'false' }}
+        uses: actions-ecosystem/action-add-labels@v1 # finally, something that exists
+        with:
+          labels: stale
