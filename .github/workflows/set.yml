@@ -15,10 +15,12 @@ jobs:
         with:
           script: |
             const needsStale = (issue) => {
+              const labels = issue.labels.map(labelObj => labelObj.name);
+
               issue.assignees !== undefined
               && issue.assignees.length > 0
-              && !contains(issue.labels.*.name, 'epic') 
-              && !contains(issue.labels.*.name, 'stale') 
+              && !labels.includes('epic')
+              && !labels.includes('stale')
               && issue.state === 'open' 
               && issue.updated_at <= format_datetime(now() - duration('P15M'), '%Y-%m-%dT%H:%M:%SZ') 
             }
