@@ -2,7 +2,7 @@ name: Set Stale Label on Issues
 
 on:
   schedule:
-    - cron: "* * * * *"
+    - cron: "*/5 * * * *"
 
 jobs:
   add_stale_label:
@@ -15,10 +15,12 @@ jobs:
         with:
           script: |
             const needsStale = (issue) => {
-              !contains(issue.labels.*.name, 'epic') 
+              issue.assignees !== undefined
+              && issue.assignees.length > 0
+              && !contains(issue.labels.*.name, 'epic') 
               && !contains(issue.labels.*.name, 'stale') 
-              && issue.state == 'open' 
-              && issue.updated_at <= format_datetime(now() - duration('P5M'), '%Y-%m-%dT%H:%M:%SZ') 
+              && issue.state === 'open' 
+              && issue.updated_at <= format_datetime(now() - duration('P15M'), '%Y-%m-%dT%H:%M:%SZ') 
             }
             const issues = await github.issues.listForRepo({
               owner: context.repo.owner,
