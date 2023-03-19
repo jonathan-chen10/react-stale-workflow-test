@@ -2,15 +2,17 @@
 
 For use in [this issue](https://github.com/Northeastern-Electric-Racing/FinishLine/issues/481) in the NER FinishLine repo.
 
-## Proposed Solution
+## Specifications
 
-We want a workflow that has the following specifications:
+We want a workflow with the following:
 
 - Triggers when assignee is added to issue.
 - Immediately remove "stale" tag if there is one.
 - X days later:
   - If there is no open PR linked to the issue: add "stale" tag
 - Ignore "epic" tickets (probably easy to implement)
+
+## Possible Solutions
 
 ### actions/stale
 
