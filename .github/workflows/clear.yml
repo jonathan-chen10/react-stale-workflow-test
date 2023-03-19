@@ -1,0 +1,32 @@
+name: Clear Stale Label on Update
+
+on:
+  issues:
+    types:
+      - edited
+      - deleted
+      - closed
+      - reopened
+      - assigned
+      - unassigned
+      - locked
+      - unlocked
+
+jobs:
+  clear_stale_label:
+    runs-on: ubuntu-latest
+    if: >
+      ${{ contains(github.event.issue.labels.*.name, 'stale') }}
+    permissions:
+      issues: write
+    steps:
+      - name: Clear "stale" label on update
+        uses: actions/github-script@v6
+        with:
+          script: |
+            github.rest.issues.removeLabel({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              labels: ["stale"]
+            })
