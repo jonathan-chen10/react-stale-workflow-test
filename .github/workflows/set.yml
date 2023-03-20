@@ -1,8 +1,6 @@
 name: Set Stale Label on Issues
 
-on:
-  schedule:
-    - cron: "*/10 * * * *"
+on: workflow_dispatch
 
 jobs:
   add_stale_label:
