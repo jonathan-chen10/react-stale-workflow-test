@@ -9,7 +9,7 @@ jobs:
       issues: write
     steps:
       - name: Set "stale" label on update
-        uses: actions/github-script@v4.2.0
+        uses: actions/github-script@v6
         with:
           script: |
             const needsStale = async (issue) =>  {
