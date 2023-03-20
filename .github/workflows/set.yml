@@ -2,7 +2,7 @@ name: Set Stale Label on Issues
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/10 * * * *"
 
 jobs:
   add_stale_label:
