@@ -15,12 +15,12 @@ jobs:
             const needsStale = async (issue) =>  {
               const labels = issue.labels.map(labelObj => labelObj.name);
 
-              issue.assignees !== undefined
+              return (issue.assignees !== undefined
               && issue.assignees.length > 0
               && !labels.includes('epic')
               && !labels.includes('stale')
               && issue.state === 'open' 
-              && issue.updated_at <= format_datetime(now() - duration('P15M'), '%Y-%m-%dT%H:%M:%SZ') 
+              && new Date(issue.updated_at) <= new Date() - 15 * 60 * 1000);
             }
             const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
