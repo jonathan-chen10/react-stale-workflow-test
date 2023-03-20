@@ -14,7 +14,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const needsStale = (issue) => {
+            const needsStale = async (issue) =>  {
               const labels = issue.labels.map(labelObj => labelObj.name);
 
               issue.assignees !== undefined
@@ -24,7 +24,7 @@ jobs:
               && issue.state === 'open' 
               && issue.updated_at <= format_datetime(now() - duration('P15M'), '%Y-%m-%dT%H:%M:%SZ') 
             }
-            const issues = await github.issues.listForRepo({
+            const issues = await github.rest.issues.listForRepo({
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open'
