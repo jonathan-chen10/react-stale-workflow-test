@@ -24,7 +24,7 @@ jobs:
               && issue.state === 'open' 
               && issue.updated_at <= format_datetime(now() - duration('P15M'), '%Y-%m-%dT%H:%M:%SZ') 
             }
-            const issues = await github.rest.issues.listForRepo({
+            const issues = await github.paginate(github.rest.issues.listForRepo, {
               owner: context.repo.owner,
               repo: context.repo.repo,
               state: 'open'
