@@ -27,6 +27,7 @@ jobs:
               repo: context.repo.repo,
               state: 'open'
             });
+            console.log(issues);
             for (const issue of issues.data) {
               if (issue.pull_request === undefined && needsStale(issue)) {
                 await github.issues.addLabels({
