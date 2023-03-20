@@ -30,7 +30,7 @@ jobs:
               state: 'open'
             });
             for (const issue of issues.data) {
-              if (needsStale(issue)) {
+              if (issue.pull_request === undefined && needsStale(issue)) {
                 await github.issues.addLabels({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
