@@ -11,6 +11,6 @@ jobs:
         with:
           stale-issue-label: 'stale'
           exempt-issue-labels: 'epic'
-          days-before-stale: 14
+          days-before-stale: 2
           days-before-pr-stale: -1
           days-before-close: -1
