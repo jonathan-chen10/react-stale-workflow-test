@@ -1,0 +1,17 @@
+name: Close Stale Issues
+on:
+  schedule:
+  - cron: "0 0 * * *"
+
+jobs:
+  default:
+    timeout-minutes: 1
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/stale@v4.1.1
+      with:
+        stale-issue-label: 'stale'
+        exempt-issue-labels: 'epic'
+        days-before-stale: 14
+        days-before-pr-stale: -1
+        days-before-close: -1
