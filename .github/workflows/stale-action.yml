@@ -1,4 +1,4 @@
-name: 'Close Stale Issues'
+name: 'Label Stale Issues'
 on:
   schedule:
     - cron: '0 0 * * *'
