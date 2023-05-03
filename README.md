@@ -1,6 +1,6 @@
 # Stale Workflow Test
 
-This is a sandbox to test workflows to mark tickets as stale.
+This is a sandbox to test workflows to mark tickets as stale. Currently uses a solution using [@actions/stale](https://github.com/actions/stale).
 
 ### Create React App
 
