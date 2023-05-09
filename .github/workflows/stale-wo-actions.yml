@@ -12,7 +12,7 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
-            const needsStale = async (issue) =>  {
+            const needsStale = (issue) =>  {
               const labels = issue.labels.map(labelObj => labelObj.name);
 
               return (issue.assignees !== undefined
