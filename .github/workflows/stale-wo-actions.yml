@@ -28,7 +28,7 @@ jobs:
               state: 'open'
             });
             for (const issue of issues) {
-              if (issue.pull_request === undefined && await needsStale(issue)) {
+              if (!issue.pull_request && await needsStale(issue)) {
                 console.log(`Adding STALE to issue #${issue.number}: ${issue.title}`);
                 await github.rest.issues.addLabels({
                   owner: context.repo.owner,
